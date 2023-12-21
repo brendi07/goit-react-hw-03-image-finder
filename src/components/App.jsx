@@ -16,23 +16,30 @@ class App extends Component {
     loading: false,
     error: '',
     page: 1,
-    hasMoreImages: true,
+    hasMoreImages: false,
   };
 
   changeSearchName = searchName => {
-    this.setState({ searchName: searchName,images: [], page: 1, hasMoreImages: true });
+    this.setState({
+      searchName: searchName,
+      images: [],
+      page: 1,
+      hasMoreImages: true,
+    });
   };
 
   componentDidUpdate(prevProps, prevState) {
-     const { searchName, page, hasMoreImages } = this.state;
+    const { searchName, page, hasMoreImages } = this.state;
 
-     if (searchName !== prevState.searchName) {
-       this.handleImages(searchName, 1);
-     }
-
-     if (page !== prevState.page && hasMoreImages) {
-       this.handleImages(searchName, page);
-     }
+    if (
+      searchName !== prevState.searchName ||
+      (page !== prevState.page && hasMoreImages)
+    ) {
+      this.handleImages(
+        searchName,
+        searchName !== prevState.searchName ? 1 : page
+      );
+    }
   }
 
   handleImages = async (searchName, page) => {
@@ -40,23 +47,23 @@ class App extends Component {
       this.setState({ loading: true });
       const data = await getSearchedImages(searchName, page);
 
-      if (data.hits.length<12) {
-        this.setState({ hasMoreImages: false }); 
+      if (data.hits.length < 12) {
+        this.setState({ hasMoreImages: false });
       }
 
       this.setState(prevState => ({
         images: [...prevState.images, ...data.hits],
         error: '',
-        loading: false,
       }));
-
     } catch (error) {
-      this.setState({ error: error.response.data, loading: false });
+      this.setState({ error: error.response.data });
+    } finally {
+      this.setState({ loading: false });
     }
   };
 
   loadMore = () => {
-     this.setState(prevState => ({ page: prevState.page + 1 }));
+    this.setState(prevState => ({ page: prevState.page + 1 }));
   };
 
   render() {
@@ -66,17 +73,9 @@ class App extends Component {
         <Searchbar onSubmit={this.changeSearchName} />
 
         {error && <h1>{error}</h1>}
-        {loading&&<Loader/>}
-        {images.length > 0 && (
-          <div>
-            <ImageGallery images={images}/>
-            {hasMoreImages ? (
-              <Button buttonClick={this.loadMore} />
-            ) : (
-              <p>No more images</p>
-            )}
-          </div>
-        )}
+        {loading && <Loader />}
+        {images.length > 0 && <ImageGallery images={images} />}
+        {hasMoreImages && <Button buttonClick={this.loadMore} />}
       </div>
     );
   }

@@ -2,26 +2,26 @@ import { Component } from "react";
 
 import { ImageGalleryList } from "./ImageGallery.styled";
 import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem";
-import { Modal } from "components/Modal/Modal";
+import  Modal  from "components/Modal/Modal";
 
 class ImageGallery extends Component {
   state = {
     selectedImage: null,
   };
 
-  componentDidMount() {
-    document.addEventListener('keydown', this.handleKeyDown);
-  }
+  // componentDidMount() {
+  //   document.addEventListener('keydown', this.handleKeyDown);
+  // }
 
-  componentWillUnmount() {
-    document.removeEventListener('keydown', this.handleKeyDown);
-  }
+  // componentWillUnmount() {
+  //   document.removeEventListener('keydown', this.handleKeyDown);
+  // }
 
-  handleKeyDown = event => {
-    if (event.code === 'Escape') {
-      this.closeModal();
-    }
-  };
+  // handleKeyDown = event => {
+  //   if (event.code === 'Escape') {
+  //     this.closeModal();
+  //   }
+  // };
 
   openModal = image => {
     this.setState({ selectedImage: image });
