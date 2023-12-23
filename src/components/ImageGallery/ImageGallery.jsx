@@ -9,20 +9,6 @@ class ImageGallery extends Component {
     selectedImage: null,
   };
 
-  // componentDidMount() {
-  //   document.addEventListener('keydown', this.handleKeyDown);
-  // }
-
-  // componentWillUnmount() {
-  //   document.removeEventListener('keydown', this.handleKeyDown);
-  // }
-
-  // handleKeyDown = event => {
-  //   if (event.code === 'Escape') {
-  //     this.closeModal();
-  //   }
-  // };
-
   openModal = image => {
     this.setState({ selectedImage: image });
   };

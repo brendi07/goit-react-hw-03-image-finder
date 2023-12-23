@@ -29,7 +29,7 @@ class Modal extends Component {
       <ModalOverlay onClick={this.handleCloseModal}>
         <ModalEl>
           <img src={image} alt={alt} />
-          <button onClick={onClose}>Закрити</button>
+          <button onClick={onClose}></button>
         </ModalEl>
       </ModalOverlay>
     );

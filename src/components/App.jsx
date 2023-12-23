@@ -24,16 +24,15 @@ class App extends Component {
       searchName: searchName,
       images: [],
       page: 1,
-      hasMoreImages: true,
     });
   };
 
   componentDidUpdate(prevProps, prevState) {
-    const { searchName, page, hasMoreImages } = this.state;
+    const { searchName, page} = this.state;
 
     if (
       searchName !== prevState.searchName ||
-      (page !== prevState.page && hasMoreImages)
+      page !== prevState.page
     ) {
       this.handleImages(
         searchName,
@@ -47,13 +46,10 @@ class App extends Component {
       this.setState({ loading: true });
       const data = await getSearchedImages(searchName, page);
 
-      if (data.hits.length < 12) {
-        this.setState({ hasMoreImages: false });
-      }
-
       this.setState(prevState => ({
         images: [...prevState.images, ...data.hits],
         error: '',
+        hasMoreImages: this.state.page < Math.ceil(data.totalHits / 12),
       }));
     } catch (error) {
       this.setState({ error: error.response.data });
