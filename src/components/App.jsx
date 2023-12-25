@@ -34,10 +34,7 @@ class App extends Component {
       searchName !== prevState.searchName ||
       page !== prevState.page
     ) {
-      this.handleImages(
-        searchName,
-        searchName !== prevState.searchName ? 1 : page
-      );
+      this.handleImages(searchName, page);
     }
   }
 
